@@ -56,6 +56,4 @@ jobs:
             --namespace ${{ env.NAMESPACE }} \
             --create-namespace \
             --set image.repository=${DOCKER_IMAGE_REPO} \
-            --set image.tag=${{ github.event.inputs.image_tag }} \
-            # IMPORTANT: Ensure this value matches your Spring Boot service
-            --set env.apiBaseUrl=${{ secrets.SPRINGBOOT_API_URL }}
+            --set image.tag=${{ github.event.inputs.image_tag }}
