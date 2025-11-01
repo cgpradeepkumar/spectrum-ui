@@ -1,0 +1,61 @@
+name: Spectrum UI Deployment
+
+on:
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  GKE_CLUSTER: spectrum-cluster
+  GKE_ZONE: us-central1
+  NAMESPACE: dev
+  IMAGE_REPOSITORY: cgpradeepkumar/spectrum-ui
+  IMAGE_NAME: spectrum-ui
+  HELM_CHART_PATH: spectrum-ui/helm # Path to your Helm chart directory
+
+jobs:
+  deploy:
+    name: Deploy to GKE
+    runs-on: ubuntu-latest
+
+    # Needs permissions to interact with GKE
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # --- GCP Authentication ---
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      # --- GKE Setup ---
+      - name: Get GKE Credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+
+      # --- Helm Deployment ---
+      - name: Deploy with Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: "3.14.0"
+
+      - name: Run Helm Upgrade
+        run: |
+          # 1. Construct the full image path
+          DOCKER_IMAGE_REPO=${{ env.IMAGE_REPOSITORY }}
+
+          # 2. Deploy or upgrade the release
+          helm upgrade flashcard-ui-release ${{ env.HELM_CHART_PATH }} \
+            --install \
+            --namespace ${{ env.NAMESPACE }} \
+            --create-namespace \
+            --set image.repository=${DOCKER_IMAGE_REPO} \
+            --set image.tag=${{ github.event.inputs.image_tag }} \
+            # IMPORTANT: Ensure this value matches your Spring Boot service
+            --set env.apiBaseUrl=${{ secrets.SPRINGBOOT_API_URL }}

@@ -1,0 +1,28 @@
+# Default values for flashcard-ui.
+
+# Replica count for the deployment
+replicaCount: 1
+
+image:
+  # Replace [REGION], [PROJECT_ID], and [REPOSITORY_NAME] with your actual AR details.
+  repository: cgpradeepkumar/spectrum-ui
+  tag: latest
+  pullPolicy: Always
+
+service:
+  # Defines how the service is exposed: ClusterIP (internal), LoadBalancer (external), NodePort
+  type: LoadBalancer
+  port: 80
+
+env:
+  # 🔑 CRITICAL: The internal GKE service name/URL for your Spring Boot API
+  # Example: http://[spring-boot-service-name]:8080/ai-server/api/flashcards
+  apiBaseUrl: "http://spectrum-gateway:8080/ai-server/api/flashcards"
+
+resources:
+  limits:
+    cpu: 250m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 64Mi

@@ -1,0 +1,29 @@
+/* Global Reset and Layout */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #f4f7f8;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.app-header {
+  margin-bottom: 30px;
+}
+
+.app-header h1 {
+  color: #2c3e50;
+  font-size: 2.5em;
+}
+
+.main-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
