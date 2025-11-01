@@ -10,7 +10,7 @@ env:
   NAMESPACE: dev
   IMAGE_REPOSITORY: cgpradeepkumar/spectrum-ui
   IMAGE_NAME: spectrum-ui
-  HELM_CHART_PATH: spectrum-ui/helm # Path to your Helm chart directory
+  HELM_CHART_PATH: /helm # Path to your Helm chart directory
 
 jobs:
   deploy:
