@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Flashcard from '../../components/Flashcard/Flashcard';
+import Flashcard from '../../components/flashcard/Flashcard';
 // 1. Import the new UploadForm component
 import UploadForm from '../../components/ui/UploadForm'; 
 import { generateFlashcardsFromFile } from './flashcardAPI';
