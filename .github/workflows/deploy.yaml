@@ -51,7 +51,7 @@ jobs:
           DOCKER_IMAGE_REPO=${{ env.IMAGE_REPOSITORY }}
 
           # 2. Deploy or upgrade the release
-          helm upgrade ${{ IMAGE_NAME }} ${{ env.HELM_CHART_PATH }} \
+          helm upgrade ${{ env.IMAGE_NAME }} ${{ env.HELM_CHART_PATH }} \
             --install \
             --namespace ${{ env.NAMESPACE }} \
             --create-namespace \
