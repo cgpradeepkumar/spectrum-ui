@@ -51,9 +51,10 @@ jobs:
           DOCKER_IMAGE_REPO=${{ env.IMAGE_REPOSITORY }}
 
           # 2. Deploy or upgrade the release
-          helm upgrade flashcard-ui-release ${{ env.HELM_CHART_PATH }} \
+          helm upgrade ${{ IMAGE_NAME }} ${{ env.HELM_CHART_PATH }} \
             --install \
             --namespace ${{ env.NAMESPACE }} \
             --create-namespace \
             --set image.repository=${DOCKER_IMAGE_REPO} \
-            --set image.tag=${{ github.event.inputs.image_tag }}
+            --set image.pullPolicy=Always \
+            --set image.tag=latest
