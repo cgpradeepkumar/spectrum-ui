@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: { { .Chart.name } }
+  name: {{ .Chart.name }}
 spec:
-  replicas: { { .Values.replicaCount } } # Use Helm value for replicas
+  replicas: {{ .Values.replicaCount }} # Use Helm value for replicas
   selector:
     matchLabels:
-      app: { { .Chart.name } }
+      app: {{ .Chart.name }}
   template:
     metadata:
       labels:
-        app: { { .Chart.name } }
+        app: {{ .Chart.name }}
     spec:
       containers:
-        - name: { { .Chart.name } }
+        - name: {{ .Chart.name }}
           # Use image defined in Helm values
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: { { .Values.image.pullPolicy } }
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: { { .Values.service.port } }
+            - containerPort: {{ .Values.service.port }}
           # CRITICAL: Inject the API URL environment variable
           env:
             - name: SPECTRUM_API_URL
               value: "{{ .Values.env.apiBaseUrl }}"
-          resources: { { - toYaml .Values.resources | nindent 10 } } # Pulls limits/requests from values.yaml
+          resources: {{ toYaml .Values.resources | nindent 10 }} # Pulls limits/requests from values.yaml
